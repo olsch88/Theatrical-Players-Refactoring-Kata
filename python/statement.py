@@ -44,10 +44,14 @@ def format_as_euros(amount: float):
     return f"€{amount:0,.2f}"
 
 
+def default_output_formater():
+    pass
+
+
 def statement(invoice, plays, currency_format: callable):
     total_amount = 0
     volume_credits = 0
-    result = f'Statement for {invoice["customer"]}\n'
+    statment_text = f'Statement for {invoice["customer"]}\n'
 
     for perf in invoice["performances"]:
         play = plays[perf["playID"]]
@@ -64,9 +68,9 @@ def statement(invoice, plays, currency_format: callable):
         )
 
         # print line for this order
-        result += f' {play["name"]}: {currency_format(this_amount/100)} ({perf["audience"]} seats)\n'
+        statment_text += f' {play["name"]}: {currency_format(this_amount/100)} ({perf["audience"]} seats)\n'
         total_amount += this_amount
 
-    result += f"Amount owed is {format_as_dollars(total_amount/100)}\n"
-    result += f"You earned {volume_credits} credits\n"
-    return result
+    statment_text += f"Amount owed is {format_as_dollars(total_amount/100)}\n"
+    statment_text += f"You earned {volume_credits} credits\n"
+    return statment_text
