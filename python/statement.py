@@ -44,14 +44,28 @@ def format_as_euros(amount: float):
     return f"€{amount:0,.2f}"
 
 
-def default_output_formater():
-    pass
+def default_output_formater(unformated_text: str):
+    return unformated_text
 
 
-def statement(invoice, plays, currency_format: callable):
+def html_output_formater(unformated_text: str):
+    # just an oversimplified version for demonstration
+    """<head>
+    <title> Statement</title>
+    <bod>"""
+    +unformated_text
+    +""" </bod>"""
+
+
+def statement(
+    invoice,
+    plays,
+    currency_format: callable,
+    output_format: callable = default_output_formater,
+):
     total_amount = 0
     volume_credits = 0
-    statment_text = f'Statement for {invoice["customer"]}\n'
+    statement_text = f'Statement for {invoice["customer"]}\n'
 
     for perf in invoice["performances"]:
         play = plays[perf["playID"]]
@@ -68,9 +82,9 @@ def statement(invoice, plays, currency_format: callable):
         )
 
         # print line for this order
-        statment_text += f' {play["name"]}: {currency_format(this_amount/100)} ({perf["audience"]} seats)\n'
+        statement_text += f' {play["name"]}: {currency_format(this_amount/100)} ({perf["audience"]} seats)\n'
         total_amount += this_amount
 
-    statment_text += f"Amount owed is {format_as_dollars(total_amount/100)}\n"
-    statment_text += f"You earned {volume_credits} credits\n"
-    return statment_text
+    statement_text += f"Amount owed is {format_as_dollars(total_amount/100)}\n"
+    statement_text += f"You earned {volume_credits} credits\n"
+    return output_format(statement_text)
