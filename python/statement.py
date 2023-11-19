@@ -86,6 +86,6 @@ def statement(
         statement_text += f' {play["name"]}: {currency_format(this_amount/100)} ({perf["audience"]} seats)\n'
         total_amount += this_amount
 
-    statement_text += f"Amount owed is {format_as_dollars(total_amount/100)}\n"
+    statement_text += f"Amount owed is {currency_format(total_amount/100)}\n"
     statement_text += f"You earned {volume_credits} credits\n"
     return output_format(statement_text)
