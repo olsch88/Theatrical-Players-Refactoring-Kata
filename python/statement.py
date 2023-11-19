@@ -52,9 +52,10 @@ def html_output_formater(unformated_text: str):
     # just an oversimplified version for demonstration
     """<head>
     <title> Statement</title>
-    <bod>"""
+    </head>
+    <body>"""
     +unformated_text
-    +""" </bod>"""
+    +""" </body>"""
 
 
 def statement(
